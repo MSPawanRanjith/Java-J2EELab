@@ -1,0 +1,4 @@
+#ignore class file
+*.class
+#ignore classpath
+*.classpath
