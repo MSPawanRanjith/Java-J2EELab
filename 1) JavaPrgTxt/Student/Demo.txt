@@ -1,0 +1,17 @@
+import ResultPackage.*;
+import StudentPackage.*;
+
+public class Demo {
+
+	public static void main(String[] args) {
+		
+		try {
+			RegisterStudent student=new RegisterStudent();
+			Result result=new Result();
+			result.display(student);
+		} catch (CreditLimitException e) {
+			System.out.println(e.toString());
+		}
+	}
+
+}

@@ -1,0 +1,27 @@
+package ResultPackage;
+
+import StudentPackage.*;
+
+public class Result {
+
+	public void display(RegisterStudent student) {
+		System.out.println("RESULT ---------------------------");
+		System.out.println("NAME : "+student.getName()+"  BRANCH : "+student.getBranch());
+		
+		try {
+			
+			student.calculate();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		System.out.println("MARKS ---------------------------");
+		for(int i=0;i<student.sems;i++){
+			System.out.println("SGPA : "+student.sgpaList.get(i));
+		}
+		System.out.println("CGPA : "+student.cgpa);
+		
+	}
+
+}

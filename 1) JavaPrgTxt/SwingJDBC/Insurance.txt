@@ -1,0 +1,207 @@
+import java.awt.GridLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+
+public class Insurance {
+
+	JFrame frm;
+	
+	JLabel lblRepNo, lblRepName, lblRepState, lblRepCom, lblRepRate;
+	JLabel lblCustNo, lblCustName, lblCustState, lblCustCr, lblCustRepNo;
+	
+	JTextField txtRepNo, txtRepName, txtRepState, txtRepCom, txtRepRate;
+	JTextField txtCustNo, txtCustName, txtCustState, txtCustCr, txtCustRepNo;
+	
+	JButton btnRep, btnCust, btnDisp;
+	
+	JTextArea txtDisp;
+	
+	JPanel pnlRep, pnlCust, pnlDisp;
+	
+	final String DRIVER="com.mysql.jdbc.Driver";
+	final String URL="jdbc:mysql://localhost:3306/javalab";
+	final String USR="root";
+	final String PASS="network";
+	
+	
+	public void setUI() {
+		frm=new JFrame("Insurance");
+		frm.setVisible(true);
+		frm.setSize(200, 200);
+		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frm.setLayout(new GridLayout(1,3));
+		
+		lblRepNo=new JLabel("REP NO :");
+		lblRepName=new JLabel("REP NAME :");
+		lblRepState=new JLabel("REP STATE :");
+		lblRepCom=new JLabel("REP COM :");
+		lblRepRate=new JLabel("REP RATE :");
+		
+		lblCustNo=new JLabel("CUST NO :");
+		lblCustName=new JLabel("CUST NAME :");
+		lblCustState=new JLabel("CUST STATE :");
+		lblCustCr=new JLabel("CUST CR :");
+		lblCustRepNo=new JLabel("CUST REP NO :");
+		
+		txtRepNo=new JTextField(10);
+		txtRepName=new JTextField(10);
+		txtRepState=new JTextField(10);
+		txtRepCom=new JTextField(10);
+		txtRepRate=new JTextField(10);
+		
+		txtCustNo=new JTextField(10);
+		txtCustName=new JTextField(10);
+		txtCustState=new JTextField(10);
+		txtCustCr=new JTextField(10);
+		txtCustRepNo=new JTextField(10);
+		
+		txtDisp=new JTextArea(20,10);
+		
+		btnCust=new JButton("ADD");
+		btnRep=new JButton("ADD");
+		btnDisp=new JButton("SHOW");
+		
+		pnlRep =new JPanel();
+		pnlRep.setBorder(BorderFactory.createTitledBorder("Representative"));
+		
+		pnlCust =new JPanel();
+		pnlCust.setBorder(BorderFactory.createTitledBorder("Customer"));
+		
+		pnlDisp =new JPanel();
+		pnlDisp.setBorder(BorderFactory.createTitledBorder("CreditLimit"));
+		
+		pnlRep.add(lblRepNo);
+		pnlRep.add(txtRepNo);
+		pnlRep.add(lblRepName);
+		pnlRep.add(txtRepName);
+		pnlRep.add(lblRepState);
+		pnlRep.add(txtRepState);
+		pnlRep.add(lblRepCom);
+		pnlRep.add(txtRepCom);
+		pnlRep.add(lblRepRate);
+		pnlRep.add(txtRepRate);
+		pnlRep.add(btnRep);
+		frm.add(pnlRep);
+		
+		pnlCust.add(lblCustNo);
+		pnlCust.add(txtCustNo);
+		pnlCust.add(lblCustName);
+		pnlCust.add(txtCustName);
+		pnlCust.add(lblCustState);
+		pnlCust.add(txtCustState);
+		pnlCust.add(lblCustCr);
+		pnlCust.add(txtCustCr);
+		pnlCust.add(lblCustRepNo);
+		pnlCust.add(txtCustRepNo);
+		pnlCust.add(btnCust);
+		frm.add(pnlCust);
+		
+		pnlDisp.add(txtDisp);
+		pnlDisp.add(btnDisp);
+		frm.add(pnlDisp);
+		
+		
+		setControl();
+		System.out.println("CONTROL");
+	}
+	
+	public void setControl(){
+		btnRep.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Class.forName(DRIVER);
+					Connection conn= DriverManager.getConnection(URL,USR,PASS);
+					PreparedStatement ps=conn.prepareStatement("insert into rep values(?,?,?,?,?) ;");
+					ps.setString(1, txtRepNo.getText());
+					ps.setString(2, txtRepName.getText());
+					ps.setString(3, txtRepState.getText());
+					ps.setString(4, txtRepCom.getText());
+					ps.setString(5, txtRepRate.getText());
+					
+					int c=ps.executeUpdate();
+					System.out.println("Recordes Updated : "+c);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		
+		btnCust.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Class.forName(DRIVER);
+					Connection conn= DriverManager.getConnection(URL,USR,PASS);
+					PreparedStatement ps=conn.prepareStatement("insert into cust values (?,?,?,?,?) ;");
+					ps.setString(1, txtCustNo.getText());
+					ps.setString(2, txtCustName.getText());
+					ps.setString(3, txtCustState.getText());
+					ps.setFloat(4, Float.parseFloat(txtCustCr.getText()));
+					ps.setString(5, txtCustRepNo.getText());
+					
+					int c=ps.executeUpdate();
+					System.out.println("Recordes Updated : "+c);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		btnDisp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Class.forName(DRIVER);
+					Connection conn= DriverManager.getConnection(URL,USR,PASS);
+					
+					String query="select * from rep where repno in (select repno from cust where cr>1500);";
+					Statement stmt=conn.createStatement(ResultSet.CONCUR_READ_ONLY,ResultSet.TYPE_SCROLL_INSENSITIVE);
+					ResultSet rs=stmt.executeQuery(query);
+					String s="";
+					while(rs.next()){
+						s+=rs.getString(1)+"\n";
+						s+=rs.getString(2)+"\n";
+						s+=rs.getString(3)+"\n";
+						s+=rs.getString(4)+"\n";
+						s+=rs.getString(5)+"\n";
+					}
+					txtDisp.append(s);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public static void main(String[] args) {
+		Insurance insurance=new Insurance();
+		insurance.setUI();
+		
+	}
+}

@@ -1,0 +1,17 @@
+create table rep(
+	repno varchar(10) primary key,
+	name varchar(10),
+	state varchar(10),
+	comm varchar(10),
+	rate varchar(10)
+);
+
+create table cust(
+	custno varchar(10) primary key,
+	name varchar(10),
+	state varchar(10),
+	cr float,
+	repno varchar(10) references rep(repno)
+)
+
+insert into 

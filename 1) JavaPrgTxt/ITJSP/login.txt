@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+</head>
+<body>
+	<form action="index.jsp" method="post">
+		<input type="hidden" value="1" name="status">
+		USERNAME : <input type="text" name="name">
+		PASSWORD : <input type="password" name="pass">
+		<input type="submit" value="LOGIN">
+	
+	</form>
+</body>
+</html>

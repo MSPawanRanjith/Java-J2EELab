@@ -1,0 +1,12 @@
+create table tshirt(
+	orderno int primary key auto_increment,
+	tag varchar(10),
+	acc varchar(30),
+	pocket varchar(10),
+	color varchar(10)
+);
+
+alter table tshirt
+auto_increment = 100;
+
+select * from tshirt;

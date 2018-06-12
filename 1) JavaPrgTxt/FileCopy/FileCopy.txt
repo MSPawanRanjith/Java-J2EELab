@@ -1,0 +1,124 @@
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+
+public class FileCopy {
+
+	JFrame frm;
+	
+	JLabel lblSrc, lblDest;
+	JTextField source, dest;
+	JTextArea  disp;
+	
+	JButton btnStart, btnStop;
+	JProgressBar progressBar;
+	
+	String content;
+	
+	public void setUI() {
+		frm=new JFrame("FileCopyClient");
+		frm.setSize(200,200);
+		frm.setVisible(true);
+		frm.setLayout(new GridLayout(4,2));
+		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		source=new JTextField(10);
+		dest=new JTextField(10);
+		disp=new JTextArea(10,10);
+		
+		lblDest=new JLabel("Dest");
+		lblSrc=new JLabel("Source");
+		
+		btnStart=new JButton("START");
+		btnStop=new JButton("STOP");
+		btnStop.setEnabled(false);
+		
+		progressBar=new JProgressBar();
+		progressBar.setVisible(false);
+		
+		frm.add(lblSrc);
+		frm.add(source);
+		frm.add(lblDest);
+		frm.add(dest);
+		frm.add(btnStart);
+		frm.add(btnStop);
+		frm.add(progressBar);
+		frm.add(disp);
+		
+		setControl();
+	}
+	
+	public void setControl(){
+		btnStart.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnStop.setEnabled(true);
+				
+				copyFile();
+				
+				progressBar.setVisible(true);				
+				progressBar.setString("Copying");
+				progressBar.setStringPainted(true);
+				progressBar.setIndeterminate(true);
+			}
+		});
+		
+		btnStop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnStop.setEnabled(false);
+				progressBar.setVisible(false);
+				
+				disp.setText(content);
+			}
+		});
+	}
+	
+	public void copyFile(){
+		String src=source.getText();
+		String des=dest.getText();
+		
+		try {
+			content=new String(Files.readAllBytes(Paths.get(src)));
+			
+			PrintWriter pw=new PrintWriter(des);
+			
+			System.out.println("DEST "+des+" pw info "+pw.toString());
+			pw.println(content);
+			pw.close();
+			
+			
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public static void main(String[] args) {
+		
+		FileCopy fileCopy=new FileCopy();
+		fileCopy.setUI();
+	}
+
+}

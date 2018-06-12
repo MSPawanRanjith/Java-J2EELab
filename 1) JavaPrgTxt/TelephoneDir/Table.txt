@@ -1,0 +1,10 @@
+create table phone(
+	name varchar(20),
+	number varchar(10) primary key
+)
+
+insert into phone values ("TEST1","123456");
+insert into phone values ("TEST2","876543");
+insert into phone values ("TEST3","345678");
+insert into phone values ("TEST4","234567");
+insert into phone values ("TEST5","987654");

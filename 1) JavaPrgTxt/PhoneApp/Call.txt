@@ -1,0 +1,17 @@
+
+public class Call {
+
+	String name;
+	String time;
+	String number;
+	public Call(String name, String time, String number) {
+		
+		this.name = name;
+		this.time = time;
+		this.number = number;
+	}
+	
+	public void  display() {
+		System.out.println("NUMBER : "+this.number+"\nNAME : "+this.name+"\nTime : "+this.time);
+	}	
+}

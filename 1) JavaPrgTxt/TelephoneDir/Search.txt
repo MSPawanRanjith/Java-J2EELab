@@ -1,0 +1,82 @@
+
+
+import java.sql.Statement;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Search
+ */
+@WebServlet("/Search")
+public class Search extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String name,number;
+		final String DRIVER="com.mysql.jdbc.Driver";
+		final String URL="jdbc:mysql://localhost:3306/javalab";
+		final String USR="root";
+		final String PASS="network";
+		
+		name=request.getParameter("name");
+		number=request.getParameter("number");
+		
+		PrintWriter pw = response.getWriter();
+		
+		if(name.equals("")){
+			if(number.equals("")){
+				pw.println("NO Element Searched ");
+			}
+			else{
+				try {
+					Class.forName(DRIVER);
+					Connection conn=DriverManager.getConnection(URL,USR,PASS);
+					
+					Statement stmt=conn.createStatement(ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_INSENSITIVE);
+					String sql="select * from phone where number = '"+number+"';";
+					ResultSet rs=stmt.executeQuery(sql);
+					while(rs.next()){
+						
+							pw.println("NAME : "+rs.getString(1)+"\nNUMBER : "+rs.getString(2));
+						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		else{
+			try {
+				Class.forName(DRIVER);
+				Connection conn=DriverManager.getConnection(URL,USR,PASS);
+				
+				Statement stmt=conn.createStatement(ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_INSENSITIVE);
+				String sql="select * from phone where name = '"+name+"';";
+				ResultSet rs=stmt.executeQuery(sql);
+				while(rs.next()){
+					
+						pw.println("NAME : "+rs.getString(1)+"\nNUMBER : "+rs.getString(2));
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+	}
+
+}

@@ -1,0 +1,71 @@
+package StudentPackage;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class RegisterStudent implements Student{
+
+	public String name,branch;
+	public int sems;
+	public ArrayList<Integer> semCredits;
+	public ArrayList<Double> sgpaList;
+	public double cgpa=0;
+	Scanner scanner;
+	public RegisterStudent() throws CreditLimitException {
+		semCredits=new ArrayList<Integer>();
+		sgpaList=new ArrayList<Double>();
+		scanner=new Scanner(System.in);
+		getDetails();
+	}
+	
+	public void getDetails() throws CreditLimitException {
+		System.out.println("Enter the name and branch :");
+		name=scanner.next();
+		branch=scanner.next();
+		
+		System.out.println("Enter No. of Sem : ");
+		sems=scanner.nextInt();
+		
+		for(int i=0;i<sems;i++){
+			System.out.println("Enter the Credits per sem");
+			int credits=scanner.nextInt();
+			if(credits>30){
+				throw new CreditLimitException("Credit limit is 30");
+			}
+			else {
+				semCredits.add(credits);
+			}
+		}
+	}
+	
+	public void calculate() throws InvalidSGPAException{
+		for(int i=0;i<sems;i++){
+			System.out.println("Enter the Credits earned in each sem ");
+			String credit=scanner.next();
+			int earnCredit=Integer.parseInt(credit);
+			double sgpa=(double)(earnCredit/semCredits.get(i))*10;
+			if(sgpa>10){
+				throw new InvalidSGPAException("Invalid credit earned");
+			}
+			else {
+				sgpaList.add(sgpa);
+			}
+		}
+		for (double marks : sgpaList) {
+			cgpa+=marks;
+		}
+		cgpa=(cgpa/sems);
+	}
+	@Override
+	public String getName() {
+		
+		return name;
+	}
+
+	@Override
+	public String getBranch() {
+		
+		return branch;
+	}
+
+}

@@ -1,0 +1,80 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+
+public class Demo {
+
+	
+
+	public static void main(String[] args) {
+		
+		HashMap<String, String > CallList = new HashMap<String, String>();
+		ArrayList<Call> missedCalls=new ArrayList<Call>();
+		
+		Scanner scanner=new Scanner(System.in);
+		int i=0,ch=0;
+		System.out.println("Enter Caller List : NAME NUMBER");
+		for(int i1=0;i1<2;i1++){
+			String name=scanner.next();
+			String num=scanner.next();
+			
+			CallList.put(num,name);
+			
+		}
+		
+		System.out.println("Enter the Missed call ddetails :");
+		while(ch!=2){
+			String name="Unknown";
+			System.out.println("Enter 1. to ADD 2.EXIT");
+			ch=scanner.nextInt();
+			if(ch==1){
+				
+				String num=scanner.next();
+				if(CallList.containsKey(num)){
+					name=CallList.get(num);
+				}
+				String time=scanner.next();
+				Call call=new Call(name, time, num);
+				try {
+					missedCalls.set(i,call);
+					
+				} catch (Exception e) {
+					missedCalls.add(call);
+				}
+				finally{
+					i=(i+1)%3;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		ArrayList<Call> dupCalls=new ArrayList<Call>();
+		dupCalls.addAll(missedCalls);
+		for (Call call : missedCalls) {
+		
+			int c=0;
+			
+				System.out.println("Enter 1 to delete, 2. to next 3 to details");
+				c=scanner.nextInt();
+				switch (c) {
+				case 1:
+					dupCalls.remove(call);
+					System.out.println("Call removed");
+					break;
+				case 2:
+					break;
+				case 3:
+					call.display();
+				default:
+					ch=4;
+				}
+		
+		}
+		for (Call call : dupCalls) {
+			call.display();
+		}
+	}
+
+}

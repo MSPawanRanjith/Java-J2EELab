@@ -1,0 +1,16 @@
+create table flight (
+	flno varchar(10) not null,
+	day varchar(20) not null
+);
+
+create table seat (
+	flno varchar(10) not null,
+	sno varchar(10) not null
+);
+
+insert into flight values ("12345", 'Monday' );
+insert into flight values ("12346",'Tuesday' );
+insert into flight values ("12347",'Wednesday' );
+insert into flight values ("12348", 'Thursday' );
+
+select * from seat;

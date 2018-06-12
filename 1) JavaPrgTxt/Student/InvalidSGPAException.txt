@@ -1,0 +1,13 @@
+package StudentPackage;
+
+public class InvalidSGPAException extends Exception {
+	String mException;
+	private static final long serialVersionUID = 1L;
+
+	public InvalidSGPAException(String exception) {
+		super(exception);
+	}
+	
+	
+
+}

@@ -1,0 +1,6 @@
+package StudentPackage;
+
+public interface Student {
+	public String getName();
+	public String getBranch();
+}
